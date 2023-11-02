@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "main.h"
 char **splitString(const char *input, const char *delimiter, int *count) {
     int tokenCount = 0;
     char **tokens = NULL;
@@ -45,7 +45,7 @@ char **splitString(const char *input, const char *delimiter, int *count) {
     return tokens;
 }
 
-int main() {
+void _strtok() {
     const char *input = "This is a sample string";
     const char *delimiter = " ";
     int count;

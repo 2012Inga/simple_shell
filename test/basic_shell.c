@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#define MAX_COMMAND_LENGTH 100
+#define MAX_COMMAND_LENGTH 1000
 
 int main() {
     char command[MAX_COMMAND_LENGTH];
@@ -15,7 +15,8 @@ int main() {
         fflush(stdout);
 
         if (fgets(command, sizeof(command), stdin) == NULL) {
-            break;
+		printf("Please enter a command \n");
+            continue;
         }
 
         /* Remove the trailing newline character */
@@ -25,18 +26,18 @@ int main() {
         }
 
         pid_t child_pid = fork();
+if (child_pid == -1) {
+  perror("fork");
+  exit(EXIT_FAILURE);
+}
 
-        if (child_pid == -1) {
-            perror("fork");
-            exit(EXIT_FAILURE);
-        }
+if (child_pid == 0) {
+  /* This code runs in the child process */
+  if (execlp(command, command, NULL) == -1) {
+    perror("execlp");
+    exit(EXIT_FAILURE);
+  }
 
-        if (child_pid == 0) {
-            /* This code runs in the child process */
-            if (execlp(command, command, NULL) == -1) {
-                perror("execlp");
-                exit(EXIT_FAILURE);
-            }
         } else {
             /* This code runs in the parent process */
             int status;

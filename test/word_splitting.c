@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "main.h"
 char **splitString(const char *input, const char *delimiter, int *count) {
     char *str = strdup(input);
     if (str == NULL) {
@@ -31,7 +31,7 @@ char **splitString(const char *input, const char *delimiter, int *count) {
     return tokens;
 }
 
-int main() {
+void string_split() {
     // Example usage of the splitString function
     const char *input = "This is a sample string";
     const char *delimiter = " ";

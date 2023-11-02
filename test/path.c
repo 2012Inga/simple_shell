@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
+#include "main.h"
 void findFileInPath(const char *filename) {
     char *path = getenv("PATH");
     if (path == NULL) {
@@ -27,7 +27,7 @@ void findFileInPath(const char *filename) {
     printf("%s not found in PATH.\n", filename);
 }
 
-int main(int argc, char **argv) {
+void _path(int argc, char **argv) {
     if (argc < 2) {
         printf("Usage: %s filename ...\n", argv[0]);
         return 1;

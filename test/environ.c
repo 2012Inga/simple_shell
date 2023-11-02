@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "main.h"
 extern char **environ;
 
-int main() {
+void my_environ() {
     char **env;
     
     /* Print all environment variables */

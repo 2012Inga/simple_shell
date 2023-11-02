@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "main.h"
 ssize_t custom_getline(char **line, size_t *len, FILE *stream) {
     if (*line == NULL) {
         *len = 128; // Initial buffer size
@@ -44,7 +44,7 @@ ssize_t custom_getline(char **line, size_t *len, FILE *stream) {
     }
 }
 
-int main() {
+void _getline() {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;

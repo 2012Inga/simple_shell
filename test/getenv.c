@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-
+#include "main.h"
 extern char **environ;
 
 char *_getenv(const char *name) {
@@ -19,7 +19,7 @@ char *_getenv(const char *name) {
     return NULL; /* Variable not found */
 }
 
-int main() {
+void _getenv() {
     char *path = _getenv("PATH");
     if (path != NULL) {
         printf("PATH = %s\n", path);
