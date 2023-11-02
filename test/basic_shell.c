@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include "main.h"
 
 #define MAX_COMMAND_LENGTH 1000
 
@@ -14,8 +15,19 @@ int main() {
         printf("#shell22$ ");
         fflush(stdout);
 
+	if (fgets(command, sizeof(command), stdin) == NULL) {
+	    if (feof(stdin)) {
+	   	 /* Reached end-ofofile (Ctrl+D)*/
+	   	break;
+	    } else {
+		/* Error while reading */
+		perror("fgets");
+		exit(EXIT_FAILURE);
+	    }
+	}	    
+
         if (fgets(command, sizeof(command), stdin) == NULL) {
-		printf("Please enter a command \n");
+		printf("Exitting_shell22 \n");
             continue;
         }
 

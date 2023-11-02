@@ -3,6 +3,12 @@
 #include <string.h>
 #include <unistd.h>
 #include "main.h"
+/*
+ * File description : path - checks the path if is valid
+ * @path: use tokenizer path
+ * Return : path with command on success
+ */
+
 void findFileInPath(const char *filename) {
     char *path = getenv("PATH");
     if (path == NULL) {

@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "main.h"
+
 ssize_t custom_getline(char **line, size_t *len, FILE *stream) {
     if (*line == NULL) {
-        *len = 128; // Initial buffer size
+        *len = 128; /* Initial buffer size*/
         *line = (char *)malloc(*len);
         if (*line == NULL) {
-            return -1; // Allocation error
+            return -1; /* Allocation error*/
         }
     }
 
@@ -22,14 +22,14 @@ ssize_t custom_getline(char **line, size_t *len, FILE *stream) {
                 *line = NULL;
                 *len = 0;
             }
-            return -1; // End-of-file or error
+            return -1; /*End-of-file or error */
         }
 
         if (pos >= *len - 1) {
             size_t new_len = *len * 2;
             char *new_line = (char *)realloc(*line, new_len);
             if (new_line == NULL) {
-                return -1; // Reallocation error
+                return -1; /* Reallocation error */
             }
             *line = new_line;
             *len = new_len;
@@ -44,7 +44,7 @@ ssize_t custom_getline(char **line, size_t *len, FILE *stream) {
     }
 }
 
-void _getline() {
+int main() {
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
@@ -57,10 +57,10 @@ void _getline() {
 
         if (read == -1) {
             if (feof(stdin)) {
-                // Reached end-of-file (Ctrl+D)
+                /* Reached end-of-file (Ctrl+D) */
                 break;
             } else {
-                // Error while reading
+                /* Error while reading */
                 perror("custom_getline");
                 exit(EXIT_FAILURE);
             }
