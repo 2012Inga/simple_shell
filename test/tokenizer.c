@@ -55,7 +55,9 @@ int main(void)
 	char *tokens[MAX_TOKENS];
 	int token_count, i;
 
-	printf("#shell22$ ");
+	printf("#shell22$ "); /* Display a prompt */
+
+	/* Read the entire input line */
 	if (fgets(input, sizeof(input), stdin) == NULL)
 	{
 		perror("fgets");

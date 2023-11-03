@@ -2,35 +2,50 @@
 #include <stdlib.h>
 #include <string.h>
 #include "main.h"
-char **splitString(const char *input, const char *delimiter, int *count) {
+
+/**
+ * splitString - Split a string into an array of tokens based on a delimiter.
+ * @input: The input string to be split.
+ * @delimiter: The delimiter used for splitting the string.
+ * @count: Pointer to an integer to store the number of tokens.
+ *
+ * Return: An array of strings (tokens).
+ */
+char **splitString(const char *input, const char *delimiter, int *count)
+{
     int tokenCount = 0;
     char **tokens = NULL;
-    int maxTokens = 10; // Initial array size, can be adjusted based on your needs
+    int maxTokens = 10; /* Initial array size, can be adjusted based on your needs*/
 
     *count = 0;
 
     tokens = (char **)malloc(maxTokens * sizeof(char *));
-    if (tokens == NULL) {
-        return NULL;
+    if (tokens == NULL)
+    {
+        return (NULL); /* Memory allocation error */
     }
 
     char *str = strdup(input);
-    if (str == NULL) {
+    if (str == NULL)
+    {
         free(tokens);
-        return NULL;
+        return (NULL); /* Memory allocation error*/
     }
 
     char *token = strtok(str, delimiter);
-    while (token != NULL) {
+    while (token != NULL)
+    {
         tokens[tokenCount] = strdup(token);
         tokenCount++;
 
-        if (tokenCount >= maxTokens) {
+        if (tokenCount >= maxTokens)
+	{
             maxTokens *= 2;
             tokens = (char **)realloc(tokens, maxTokens * sizeof(char *));
-            if (tokens == NULL) {
+            if (tokens == NULL)
+	    {
                 free(str);
-                return NULL;
+                return (NULL); /* Memory allocation error*/
             }
         }
 
@@ -38,14 +53,19 @@ char **splitString(const char *input, const char *delimiter, int *count) {
     }
 
     free(str);
-    tokens[tokenCount] = NULL; // Null-terminate the array
+    tokens[tokenCount] = NULL; /* Null-terminate the array */
 
     *count = tokenCount;
 
-    return tokens;
+    return (tokens);
 }
 
-void _strtok() {
+/**
+ * main - Entry point of the program.
+ *
+ * Return: Always 0.
+ */
+int main(void) {
     const char *input = "This is a sample string";
     const char *delimiter = " ";
     int count;
