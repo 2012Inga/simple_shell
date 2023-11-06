@@ -1,47 +1,42 @@
 #include "main.h"
 
-
-
-int main(int c,char **argv, char **env) {
-    (void)c;
+int main(int argc, char **argv, char **env) {
     char *command = NULL;
     size_t n_char = 0;
-    char *arg[] = {NULL, NULL};
+    char *emp[] = {NULL, NULL};
     int status;
+    pid_t child;
 
-    while (1 && getline(&command, &n_char, stdin) != EOF) {
+    while (1) {
         printf("#shell27$ ");
-        
-    int i =0;
-    while (command[i])
-    {
-    	if (command[i] =='\n')
-		command[i] = 0;
-	i++;
-    }
+        if (getline(&command, &n_char, stdin) == EOF){  
+            printf("\n");
+            break;
+        }
 
-    arg[0] = strdup(command);    
-    pid_t child_pid = fork();
-if (child_pid < 0) {
-  perror("fork");
-  exit(EXIT_FAILURE);
-}
+        int i = 0;
+        while (command[i]) {
+            if (command[i] == '\n') {
+                command[i] = 0;
+            }
+            i++;
+        }
 
-if (child_pid == 0) {
-  /* This code runs in the child process */
-  if (execve(arg[0], arg, env) == -1) {
-    printf("\n./shell: No such file or directory\n");
-    exit(EXIT_FAILURE);
-  }
-	
+        emp[0] = strdup(command);
+        child = fork();
+        if (child < 0) {
+            printf("fork failed");
+        } else if (child == 0) {
+            if (execve(emp[0], emp, env) == -1) {
+                printf("%s: No such file or directory\n", emp[0]);
+                exit(1);
+            }
         } else {
-            /* This code runs in the parent process */
-          
             wait(&status);
-    
-   	}}
-     free(command);
-     exit(EXIT_SUCCESS);
-     return (0);
+        }
     }
+
+    free(command);
+    return 0;
+}
 
