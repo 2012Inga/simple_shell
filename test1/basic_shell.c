@@ -2,17 +2,16 @@
 
 
 
-int main(char **argv, char **env) {
-    char *command;
+int main(int c,char **argv, char **env) {
+    (void)c;
+    char *command = NULL;
     size_t n_char = 0;
     char *arg[] = {NULL, NULL};
-    while (getline(&command, &n_char, stdin) != EOF) {
+    int status;
+
+    while (1 && getline(&command, &n_char, stdin) != EOF) {
         printf("#shell27$ ");
-        }
-    if (n_char == - 1)
-	{
-exit(EXIT_SUCCESS);
-	}
+        
     int i =0;
     while (command[i])
     {
@@ -21,26 +20,28 @@ exit(EXIT_SUCCESS);
 	i++;
     }
 
-        pid_t child_pid = fork();
-if (child_pid == -1) {
+    arg[0] = strdup(command);    
+    pid_t child_pid = fork();
+if (child_pid < 0) {
   perror("fork");
   exit(EXIT_FAILURE);
 }
 
 if (child_pid == 0) {
   /* This code runs in the child process */
-  if (execve(arg[0], command, env) == -1) {
-    perror("Command is not alive");
+  if (execve(arg[0], arg, env) == -1) {
+    printf("\n./shell: No such file or directory\n");
     exit(EXIT_FAILURE);
   }
-
+	
         } else {
             /* This code runs in the parent process */
-            int status;
+          
             wait(&status);
     
-   	}
+   	}}
      free(command);
+     exit(EXIT_SUCCESS);
      return (0);
     }
 
