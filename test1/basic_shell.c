@@ -5,12 +5,17 @@ int main(int argc, char **argv, char **env) {
     size_t n_char = 0;
     char *emp[] = {NULL, NULL};
     int status;
+    bool oneline = isatty(STDIN_FILENO); 
     pid_t child;
 
     while (1) {
+	if (oneline){
         printf("#shell27$ ");
-        if (getline(&command, &n_char, stdin) == EOF){  
+	}
+        if (getline(&command, &n_char, stdin) == EOF){
+	      if (oneline) {	
             printf("\n");
+	      }
             break;
         }
 
