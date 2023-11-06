@@ -38,27 +38,43 @@ int main(void)
 			break;
 		}
 
-		i = 0;
-		while (command[i])
+		/* Parse the command and arguments */
+		char *token;
+		char *argv[64]; /* Maximum number of arguments */
+
+		int argc = 0;
+
+		token = strtok(command, "\n" /* Tokenize by space and newline*/
+		while (token != NULL)
 		{
-			if (command[i] == '\n')
-			{
-				command[i] = 0;
-			}
-			i++;
+			argv[argc] = token;
+			argc++;
+			token = strtok(NULL, "\n");
 		}
 
-		emp[0] = strdup(command);
+		argv[argc] = NULL; /* NULL - terminate the argument array*/
+
 		child = fork();
 		if (child < 0)
 		{
+			printf("fork failed");\
+		}
+		else if (child == 0)
+		{
+
+		i = 0;
+		while (command[i])
+		{
+
+		emp[0] = strdup(command);
+		child = fork()
 			printf("fork failed");
 		}
 		else if (child == 0)
 		{
 			if (execve(emp[0], emp, environ) == -1)
 			{
-				printf("%s: No such file or directory\n", emp[0]);
+				printf("%s: Command not found\n", emp[0]);
 				exit(1);
 			}
 		}
