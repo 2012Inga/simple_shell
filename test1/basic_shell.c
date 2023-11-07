@@ -15,6 +15,8 @@
  * Return: Always returns 0 to indicate successful execution.
  */
 
+extern char **environ; /* Declaration for environ */
+
 int main(void) {
     char *command = NULL;
     size_t n_char = 0;
@@ -47,6 +49,21 @@ int main(void) {
         }
 
         argv[argc] = NULL; /* NULL-terminate the argument array */
+	
+	/* Implement the exit built-in command */
+	if(strcmp(argv[0], "exit") == 0){
+	   free(command);
+	   exit(0);
+	   }
+
+	/* Implement the env built-in command */
+	if (strcmp(argv[0], "env") == 0){
+	    char **env = environ;
+    	    while (*env) {
+		printf("%s\n", *env);
+    		env++;
+	    }
+	}	    
 
         /* Iterate through directories in PATH */
         char *path = getenv("PATH");
