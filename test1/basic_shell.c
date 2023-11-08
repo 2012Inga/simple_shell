@@ -3,6 +3,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdbool.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 /**
  * main - Entry point for the custom shell program.
  *
@@ -28,12 +32,16 @@ int main(void) {
         if (oneline) {
             printf("#shell27$ ");
         }
-        if (getline(&command, &n_char, stdin) == EOF) {
-            if (oneline) {
-                printf("\n");
-            }
-            break;
-        }
+
+	ssize_t read_result = getline(&command, NULL ,stdin);
+
+	if (read_result == -1) {
+	    if (oneline) {
+	    	printf("\n");
+	    }
+	    free(command); /* Free the allocated memory for the line */
+	    break;
+	}
 
         /* Parse the command and arguments */
         char *token;
@@ -63,6 +71,7 @@ int main(void) {
 		printf("%s\n", *env);
     		env++;
 	    }
+	    continue; /* Continue the shell loop instead of breaking */
 	}	    
 
         /* Iterate through directories in PATH */
