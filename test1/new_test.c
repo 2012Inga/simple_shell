@@ -44,7 +44,9 @@ char *_getline(void) {
         }
     }}
 void execute_command(char *command) {
-    
+   if (strcmp(command, "exit") == 0){
+   exit(0);
+   } 
     char *token;
     char *argv[BUFFER_SIZE];
     int argc = 0;
@@ -104,7 +106,7 @@ int main(void) {
             if (oneline) {
                 printf("\n");
             }
-            continue;
+            break;
         }
 
         pid_t child;
@@ -118,6 +120,9 @@ int main(void) {
             exit(0);
         } else {
             wait(NULL);
+	    if (command == "exit"){
+	    break;
+	    }
         }
 
         free(command);
