@@ -44,9 +44,6 @@ char *_getline(void) {
         }
     }}
 void execute_command(char *command) {
-   if (strcmp(command, "exit") == 0){
-   exit(0);
-   } 
     char *token;
     char *argv[BUFFER_SIZE];
     int argc = 0;
@@ -61,9 +58,7 @@ void execute_command(char *command) {
     argv[argc] = NULL;
 
     
-    if (strcmp(argv[0], "exit") == 0) {
-        exit(0);
-    } else if (strcmp(argv[0], "env") == 0) {
+     if (strcmp(argv[0], "env") == 0) {
         char **env = environ;
         while (*env) {
             printf("%s\n", *env);
@@ -99,7 +94,7 @@ int main(void) {
 
     while (1) {
         if (oneline) {
-            printf("#shell27$ ");
+            printf("#shell0.1.1$ ");
         }
         command = _getline();
         if (command == NULL) {
@@ -108,6 +103,9 @@ int main(void) {
             }
             break;
         }
+	if (strcmp(command, "exit") == 0){
+		break;
+	}
 
         pid_t child;
         if ((child = fork()) == -1) {
