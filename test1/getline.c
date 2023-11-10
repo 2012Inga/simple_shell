@@ -1,14 +1,4 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-#define READ_SIZE 1024
-
-static char buffer[READ_SIZE];
-static size_t buffer_size = 0;
-static size_t buffer_position = 0;
-
 /**
  * custom_getline - Read a line from standard input.
  *
@@ -19,76 +9,38 @@ static size_t buffer_position = 0;
  *
  * Return: A pointer to the reade line, or NULL if an error occurs.
  */
-
-char *custom_getline(void) {
-    size_t size = 0;
+char *_getline(void) {
     char *line = NULL;
-    char ch;
+    size_t line_size = BUFFER_SIZE;
+    size_t line_length = 0;
+    int ch;
+
+    line = (char *)malloc(line_size);
+    if (!line) {
+        perror("Memory allocation error");
+        exit(EXIT_FAILURE);
+    }
 
     while (1) {
-        if (buffer_position == 0) {
-            buffer_size = read(STDIN_FILENO, buffer, READ_SIZE);
-            if (buffer_size <= 0) {
-                if (line != NULL) {
+        ch = getchar();
+        if (ch == EOF) {
+            free(line);
+            return NULL; 
+        } else if (ch == '\n') {
+            line[line_length] = '\0';
+            return line;
+	} else {
+            if (line_length >= line_size - 1) {
+               
+                line_size *= 2;
+                char *new_line = (char *)realloc(line, line_size);
+                if (!new_line) {
+                    perror("Memory reallocation error");
                     free(line);
+                    exit(EXIT_FAILURE);
                 }
-                return NULL;
+                line = new_line;
             }
-	    buffer_position = 0;
-
+            line[line_length++] = ch;
         }
-
-        ch = buffer[buffer_position];
-        buffer_position++;
-
-        if (ch == '\n' || ch == '\0') {
-            line = (char *)realloc(line, size + 1);
-            if (line == NULL) {
-                return NULL;
-            }
-            line[size] = '\0';
-            break;
-        } else {
-            line = (char *)realloc(line, size + 2);
-            if (line == NULL) {
-                return NULL;
-            }
-            line[size] = ch;
-            size++;
-        }
-    }
-
-    return line;
-}
-
-int main(void) {
-    char *command = NULL;
-    bool oneline = isatty(STDIN_FILENO);
-    pid_t child;
-
-    while (1) {
-	if (oneline) {
-	    printf("#shell27$ ");
-    	    fflush(stdout); /* Ensure prompt is printed immediately */
-	}
-
-	ssize_t read_result = getline(&command, &buffer_size, stdin);
-
-	if (read_result == -1) {
-	    if (oneline) {
-	        printf("\n");
-	    }
-	    free(command);
-	    break;
-	}
-
-	/* Process the command and arguments */
-	
-	/* Rest buffer position and size for the next iteration */
-	buffer_position = 0;
-	buffer_size = 0;
-    }
-    
-    free(command);
-    return (0);
-}
+    }}

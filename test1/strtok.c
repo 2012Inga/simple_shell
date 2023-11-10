@@ -1,18 +1,15 @@
-#include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdbool.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "main.h" 
 
+<<<<<<< HEAD
 /* Prototype for strtok_custom */
 char *strtok_custom(char *str, const char *delim);
 
 /**
  * splitString - Split a string into an array of tokens based on a delimiter.
  * @input: The input string to be split.
+=======
+/* @input: The input string to be split.
+>>>>>>> 027bbab46fac9450c87aa466cb7412a520086f69
  * @delimiter: The delimiter used for splitting the string.
  * @count: Pointer to an integer to store the number of tokens.
  *
@@ -76,7 +73,8 @@ char *strtok_custom(char *str, const char *delim) {
     if (str != NULL) {
         lastToken = str;
     } else if (lastToken == NULL) {
-        return NULL;
+       free(strtok);
+	    return NULL;
     }
 
     token = lastToken;
@@ -103,6 +101,7 @@ char *strtok_custom(char *str, const char *delim) {
 
     return token;
 }
+<<<<<<< HEAD
 
 extern char **environ; /* Declaration for environ */
 
@@ -243,3 +242,5 @@ int main(void) {
     free(command);
     return 0;
 }
+=======
+>>>>>>> 027bbab46fac9450c87aa466cb7412a520086f69
