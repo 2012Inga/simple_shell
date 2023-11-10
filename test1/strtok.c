@@ -7,6 +7,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+/* Prototype for strtok_custom */
+char *strtok_custom(char *str, const char *delim);
+
 /**
  * splitString - Split a string into an array of tokens based on a delimiter.
  * @input: The input string to be split.
@@ -150,13 +153,25 @@ int main(void) {
 
         /* Implement the exit built-in command */
         if (strcmp(argv[0], "exit") == 0) {
-            // Free the allocated memory before exiting
-            for (int i = 0; i < argc; i++) {
-                free(argv[i]);
+            if (argc == 2) {
+                status = atoi(argv[1]);
+                // Free the allocated memory before exiting
+                for (int i = 0; i < argc; i++) {
+                    free(argv[i]);
+                }
+                free(argv);
+                free(command);
+                exit(status);
+            } else if (argc > 2) {
+                fprintf(stderr, "Usage: exit [status]\n");
+            } else {
+                // Free the allocated memory for arguments
+                for (int i = 0; i < argc; i++) {
+                    free(argv[i]);
+                }
+                free(argv);
             }
-            free(argv);
-            free(command);
-            exit(0);
+            continue; // Skip the fork and exec steps for the exit command
         }
 
         /* Implement the env built-in command */
@@ -167,6 +182,26 @@ int main(void) {
                 env++;
             }
         }
+
+	/* Implement the setenv built-in command */
+	if (strcmp(argv[0]0 "setenv") == 0) {
+		if (argc == 3) {
+			if (set_environment_variable(argv[1], argv[2]) == -1) {
+				fprintf(stderr, "ERROR: Unable to set environment variable\n");
+			}
+		} else {
+			fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
+		}
+
+		/* Implement the unsetenv built-in command */
+		if (strcmp(argv[0], "unsetenv") == 0) {
+			if (argc == 2) {
+				if (unset_environment_variable(argv[1]) == -1) {
+					fprintf(stderr, "Error: Unable to unset environment variable\n"); }
+			} else {
+				fprintf(stderr, "Usage: unsetenv VARIABLE\n");
+			}
+		}
 
         /* Iterate through directories in PATH */
         char *path = getenv("PATH");
