@@ -6,7 +6,7 @@ int main(void) {
 
     while (1) {
         if (oneline) {
-            printf("#shell0.1.1$ ");
+            printf("#shell4.1$ ");
         }
         command = _getline();
         if (command == NULL) {

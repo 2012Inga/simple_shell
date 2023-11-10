@@ -42,7 +42,11 @@ void execute_command(char *command) {
             char *path = getenv("PATH");
             char *path_copy = strdup(path);
             char *dir = strtok_custom(path_copy, ":");
+<<<<<<< HEAD
 	    /* Iterate through directories in PATH to find and execute the command*/	
+=======
+
+>>>>>>> feb65a97a4bd87ef681d7d9808b772660b0017c1
             while (dir != NULL) {
                 char full_path[BUFFER_SIZE];
                 snprintf(full_path, sizeof(full_path), "%s/%s", dir, argv[0]);

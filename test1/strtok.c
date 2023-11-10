@@ -73,8 +73,7 @@ char *strtok_custom(char *str, const char *delim) {
     if (str != NULL) {
         lastToken = str;
     } else if (lastToken == NULL) {
-       free(strtok);
-	    return NULL;
+        return NULL;
     }
 
     token = lastToken;
@@ -101,6 +100,7 @@ char *strtok_custom(char *str, const char *delim) {
 
     return token;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 extern char **environ; /* Declaration for environ */
@@ -242,5 +242,3 @@ int main(void) {
     free(command);
     return 0;
 }
-=======
->>>>>>> 027bbab46fac9450c87aa466cb7412a520086f69
