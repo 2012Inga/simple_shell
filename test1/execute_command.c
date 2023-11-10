@@ -24,7 +24,7 @@ void execute_command(char *command) {
         if (execvp(argv[0], argv) == -1) {
             char *path = getenv("PATH");
             char *path_copy = strdup(path);
-            char *dir = *strtok_custom(path_copy, ":");
+            char *dir = strtok_custom(path_copy, ":");
 
             while (dir != NULL) {
                 char full_path[BUFFER_SIZE];
@@ -35,7 +35,7 @@ void execute_command(char *command) {
                         exit(EXIT_FAILURE);
                     }
                 }
-                dir = *strok_custom(NULL, ":");
+                dir = strtok_custom(NULL, ":");
             }
 
 

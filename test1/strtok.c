@@ -64,8 +64,7 @@ char *strtok_custom(char *str, const char *delim) {
     if (str != NULL) {
         lastToken = str;
     } else if (lastToken == NULL) {
-       free(strtok);
-	    return NULL;
+        return NULL;
     }
 
     token = lastToken;
@@ -92,3 +91,4 @@ char *strtok_custom(char *str, const char *delim) {
 
     return token;
 }
+
