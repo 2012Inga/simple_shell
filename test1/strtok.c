@@ -1,15 +1,6 @@
-#include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdbool.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "main.h" 
 
-/**
- * splitString - Split a string into an array of tokens based on a delimiter.
- * @input: The input string to be split.
+/* @input: The input string to be split.
  * @delimiter: The delimiter used for splitting the string.
  * @count: Pointer to an integer to store the number of tokens.
  *
@@ -73,7 +64,8 @@ char *strtok_custom(char *str, const char *delim) {
     if (str != NULL) {
         lastToken = str;
     } else if (lastToken == NULL) {
-        return NULL;
+       free(strtok);
+	    return NULL;
     }
 
     token = lastToken;
@@ -99,112 +91,4 @@ char *strtok_custom(char *str, const char *delim) {
     }
 
     return token;
-}
-
-extern char **environ; /* Declaration for environ */
-
-/**
- * main - Entry point for the simple shell program
- *
- * Return: Always 0.
- */
-int main(void) {
-    char *command = NULL;
-    size_t n_char = 0;
-    int status, i;
-    bool oneline = isatty(STDIN_FILENO);
-    pid_t child;
-
-    while (1) {
-        if (oneline) {
-            printf("#shell27$ ");
-        }
-
-        ssize_t read_result = getline(&command, NULL, stdin);
-
-        if (read_result == -1) {
-            if (oneline) {
-                printf("\n");
-            }
-            free(command); /* Free the allocated memory for the line */
-            break;
-        }
-
-        /* Parse the command and arguments */
-        char **argv;
-        int argc;
-
-        // Split the command into arguments
-        argv = splitString(command, " \n", &argc);
-
-        if (argv == NULL) {
-            fprintf(stderr, "Error: Memory allocation failed.\n");
-            free(command);
-            break;
-        }
-
-        /* Print the parsed arguments */
-        for (int i = 0; i < argc; i++) {
-            printf("Argument %d: %s\n", i + 1, argv[i]);
-        }
-
-        /* Implement the exit built-in command */
-        if (strcmp(argv[0], "exit") == 0) {
-            // Free the allocated memory before exiting
-            for (int i = 0; i < argc; i++) {
-                free(argv[i]);
-            }
-            free(argv);
-            free(command);
-            exit(0);
-        }
-
-        /* Implement the env built-in command */
-        if (strcmp(argv[0], "env") == 0) {
-            char **env = environ;
-            while (*env) {
-                printf("%s\n", *env);
-                env++;
-            }
-        }
-
-        /* Iterate through directories in PATH */
-        char *path = getenv("PATH");
-        char *path_copy = strdup(path);
-        char *dir = strtok_custom(path_copy, ":");
-
-        while (dir != NULL) {
-            char full_path[1024]; /* Adjust the size as needed */
-            snprintf(full_path, sizeof(full_path), "%s/%s", dir, argv[0]);
-
-            /* Check if the command exists in the directory */
-            if (access(full_path, X_OK) == 0) {
-                child = fork();
-                if (child < 0) {
-                    fprintf(stderr, "Error: fork failed\n");
-                } else if (child == 0) {
-                    if (execvp(full_path, argv) == -1) {
-                        fprintf(stderr, "%s: Command execution error\n", argv[0]);
-                        exit(1);
-                    }
-                } else {
-                    wait(&status);
-                }
-                break;
-            }
-
-            dir = strtok_custom(NULL, ":");
-        }
-
-        /* Free the allocated memory for arguments */
-        for (int i = 0; i < argc; i++) {
-            free(argv[i]);
-        }
-        free(argv);
-
-        free(path_copy);
-    }
-
-    free(command);
-    return 0;
 }
