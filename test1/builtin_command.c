@@ -112,7 +112,8 @@ void execute_command(char *command) {
 
             free(path_copy); /* Free the allocated memory for path_copy */
             perror("Command not found");
-            free(argv[0]); /* Free memory for the command */
+            
+	    free(argv[0]); /* Free memory for the command */
             exit(EXIT_FAILURE);
         }
     }

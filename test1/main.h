@@ -13,6 +13,17 @@
 
 extern char **environ;
 
+/**
+ * Set or modify an environment variable.
+ * Command syntax: setenv VARIABLE VALUE
+ * Prints an error message on stderr on failure.
+ *
+ * @param variable The name of the environment variable.
+ * @param value The value to set for the environment variable.
+ * @return 0 on success, -1 on failure.
+ */
+
+
 #define BUFFER_SIZE 1024
 
 /* Function to read a line from standard input */
@@ -78,6 +89,21 @@ char *strtok_custom(char *str, const char *delim);
 
 int set_env_variable(const char *variable, const char *value);
 int unset_env_variable(const char *variable);
+void execute_command(char *command);
+
+/**
+ * Change the current working directory and update the PWD environment variable.
+ *
+ * @param directory The directory to change to.
+ * @return 0 on success, -1 on failure.
+ */
+int change_directory(const char *directory);
+
+/** Execute a shell command.
+ * This function handles various shell commands, including the cd command.
+ *
+ * @param command The command string to be executed.
+ */
 void execute_command(char *command);
 
 #endif /* MAIN_H */

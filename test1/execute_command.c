@@ -1,4 +1,40 @@
 #include "main.h"
+/**
+ * Change the current working directory and update the PWD environment variable.
+ *
+ * @param directory The directory to change to.
+ * @return 0 on success, -1 on failure.
+ */
+int change_directory(const char *directory) {
+	char current_directory[BUFFER_SIZE];
+
+	if (directory == NULL) {
+	    directory = getenv("HOME");
+    	    if (directory == NULL) {
+		fprintf(stderr, "Error: HOME environment variable not set.\n");
+		return -1;
+	    }
+	}
+	
+	if (chdir(directory) == -1) {
+	    perror("Error changing directory");
+	    return -1;
+	}
+
+	if (getcwd(current_directory, sizeof(current_directory)) == NULL) {
+	    perror("Error getting current working directory");
+    	    return -1;
+	}
+
+	/* Update the PWD environment variable */
+	if (set_env_variable("PWD", CURRENT_DIRECTORY) == -1) {
+	    fprintf(stderr, "Error updating PWD environment variable.\n");
+	    return -1;
+	}
+	
+	return 0;
+}
+
 
 /* Declaration of strtok_custom */
 char *strtok_custom(char *str, const char *delim);
@@ -18,6 +54,27 @@ void execute_command(char *command) {
     char *token;
     char *argv[BUFFER_SIZE];
     int argc = 0;
+
+    /* Check if the command is "cd" */
+    if (argc == 1 || strcmp(argv[1], "~") == 0 || strcmp(argv[1], "$HOME") == 0) {
+	    /* Change to the home directory */
+	    if (change_directory(NULL) == -1) {
+		fprintf(stderr, "Error changing to the home directory.\n");
+	    }
+    } else if (strcmp(argv[1], "-") == 0) {
+	/* Change to the previous directory */
+	char * previous_directory = getenv("OLDPWD");
+	if (previous_directory == NULL) {
+	    fprintf(stderr, "Error changing to the previous directory.\n");
+	}
+    }
+} else {
+    /* Change to the specified directory */
+    if (change_directory(argv[1]) == -1) {
+	fprintf(stderr, "Error changing to the specified firectory.\n");
+    }
+}
+
     
     /* Tokenize the command string into arguments */
     token = strtok(command, " \n");

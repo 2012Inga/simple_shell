@@ -16,26 +16,29 @@ int main(void) {
             break;
         }
 	if (strcmp(command, "exit") == 0){
+		free(command);
 		break;
 	}
 
         pid_t child;
         if ((child = fork()) == -1) {
             perror("fork failed");
+	    free(command);
             exit(EXIT_FAILURE);
         }
 
         if (child == 0) {
             execute_command(command);
+	    free(command); /* Free the memory in the child process */
             exit(0);
         } else {
             wait(NULL);
-	    if (command == "exit"){
+	    if (strcmp(command, "exit") == 0){
 	    break;
 	    }
         }
 
-        free(command);
+        free(command); /* Free the memory in the parent process */
     }
 
     return 0;
