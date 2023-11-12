@@ -70,4 +70,14 @@ int set_env_variable(const char *variable, const char *value);
  */
 int unset_env_variable(const char *variable);
 
+/* Get line function */
+char *_getline(void);
+
+char **splitString(const char *input, const char *delimiter, int *count);
+char *strtok_custom(char *str, const char *delim);
+
+int set_env_variable(const char *variable, const char *value);
+int unset_env_variable(const char *variable);
+void execute_command(char *command);
+
 #endif /* MAIN_H */
