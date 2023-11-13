@@ -58,7 +58,7 @@ char *strtok_custom(char *str, const char *delim);
  *
  * @param command The command string to be executed.
  */
-void execute_command(char *command);
+
 
 /**
  * Set or modify an environment variable.
