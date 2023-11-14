@@ -1,4 +1,8 @@
 #include "main.h"
+/**
+ * File: builtin_command.c
+ * Description: Implementation of built-in commands.
+ */
 
 /**
  * Set or modify an environment variable.
