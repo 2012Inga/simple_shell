@@ -37,7 +37,23 @@ int main(void) {
         if (strcmp(argv[0], "cd") == 0) {
             _buildInCmd(argv);
             printf("cd :\n");
-        } else {
+        } else if (strcmp(argv[0], "setenv") == 0){
+		if (argc == 3) {
+                if (set_env_variable(argv[1], argv[2]) == -1) {
+                    
+                } else {
+                fprintf(stderr, "Error: Incorrect syntax. Usage: setenv VARIABLE VALUE\n");
+                
+		}
+	}} else if (strcmp(argv[0], "unsetenv") == 0){
+	if (argc == 2) {
+                if (unset_env_variable(argv[1]) == -1) {
+                fprintf(stderr, "Error: Incorrect syntax. Usage: setenv VARIABLE VALUE\n");
+                    
+                }
+	
+	}}
+		else {
             
             if ((child = fork()) == -1) {
                 perror("fork failed");

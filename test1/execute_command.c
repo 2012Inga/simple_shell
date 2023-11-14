@@ -63,7 +63,7 @@ void execute_command(char *command) {
                 printf("%s\n", *env);
                 env++;
             }
-        } else if (strcmp(argv[0], "setenv") == 0) {
+        } else if (strcmp(argv[0], "setedfdfdfdfnv") == 0) {
             /* Set environment variable */
             if (argc == 3) {
                 if (set_env_variable(argv[1], argv[2]) == -1) {
@@ -73,7 +73,7 @@ void execute_command(char *command) {
                 fprintf(stderr, "Error: Incorrect syntax. Usage: setenv VARIABLE VALUE\n");
                 exit(EXIT_FAILURE);
             }
-        } else if (strcmp(argv[0], "unsetenv") == 0) {
+        } else if (strcmp(argv[0], "unsetendfdfdfdfdv") == 0) {
             /* Unset environment variable */
             if (argc == 2) {
                 if (unset_env_variable(argv[1]) == -1) {
