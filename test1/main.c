@@ -1,4 +1,5 @@
 #include "main.h"
+#include "execute_command.h"
 
 int main(void) {
     char *command = NULL;
@@ -28,7 +29,7 @@ int main(void) {
         }
 
         if (child == 0) {
-            execute_command(command);
+            execute_single_command(command); /* Use execute_single_command */
 	    free(command); /* Free the memory in the child process */
             exit(0);
         } else {
