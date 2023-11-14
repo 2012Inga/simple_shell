@@ -1,10 +1,9 @@
 #include "main.h"
-#include "execute_command.h"
 
 int main(void) {
     char *command = NULL;
     bool oneline = isatty(STDIN_FILENO);
-
+    pid_t child;
     while (1) {
         if (oneline) {
             printf("#shell4.1$ ");
@@ -21,26 +20,47 @@ int main(void) {
 		break;
 	}
 
-        pid_t child;
-        if ((child = fork()) == -1) {
-            perror("fork failed");
-	    free(command);
-            exit(EXIT_FAILURE);
+	// Tokenize the command string into arguments
+        char *token;
+        char *argv[BUFFER_SIZE];
+        int argc = 0;
+
+        token = strtok(command, " \n");
+        while (token != NULL) {
+            argv[argc] = strdup(token);
+            argc++;
+            token = strtok(NULL, " \n");
         }
 
-        if (child == 0) {
-            execute_single_command(command); /* Use execute_single_command */
-	    free(command); /* Free the memory in the child process */
-            exit(0);
+        argv[argc] = NULL; /* NULL-terminate the argument array */
+
+        if (strcmp(argv[0], "cd") == 0) {
+            _buildInCmd(argv);
+            printf("cd :\n");
         } else {
-            wait(NULL);
-	    if (strcmp(command, "exit") == 0){
-	    break;
-	    }
+            
+            if ((child = fork()) == -1) {
+                perror("fork failed");
+                free(command);
+                exit(EXIT_FAILURE);
+            }
+
+            if (child == 0) {
+                execute_command(command);
+                free(command);
+                exit(0);
+            } else {
+                wait(NULL);
+            }
         }
 
-        free(command); /* Free the memory in the parent process */
+        // Free memory for the arguments
+        for (int i = 0; i < argc; i++) {
+            free(argv[i]);
+        }
+
+        free(command);
     }
 
     return 0;
-}    
+}

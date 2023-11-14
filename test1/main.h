@@ -91,6 +91,8 @@ int set_env_variable(const char *variable, const char *value);
 int unset_env_variable(const char *variable);
 void execute_command(char *command);
 
+
+int _buildInCmd(char **arg);
 /**
  * Change the current working directory and update the PWD environment variable.
  *
