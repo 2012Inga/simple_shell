@@ -20,7 +20,7 @@ int main(void) {
 		break;
 	}
 
-	// Tokenize the command string into arguments
+	/* Tokenize the command string into arguments */
         char *token;
         char *argv[BUFFER_SIZE];
         int argc = 0;
@@ -70,7 +70,7 @@ int main(void) {
             }
         }
 
-        // Free memory for the arguments
+        /* Free memory for the arguments */
         for (int i = 0; i < argc; i++) {
             free(argv[i]);
         }
