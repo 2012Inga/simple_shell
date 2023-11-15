@@ -108,4 +108,25 @@ int change_directory(const char *directory);
  */
 void execute_command(char *command);
 
+/* Alias node structure */
+typedef struct AliasNode {
+	char *name;
+	char *value;
+	struct AliasNode *next;
+} AliasNode;
+
+/* Global alias list */
+AliasNode *alias_list;
+
+/* Function declaration for alias */
+char *_getline(void);
+void execute_command(char *commad);
+void execute_single_command(char *command);
+void _buildInCmd(char *argv[]);
+int set_env_variable(char *name, char *value);
+int unset_env_variable(char *name);
+int handle_separator(char *argv[], int argc);
+void add_alias(char *name, char *value);
+void print_aliases(void);
+
 #endif /* MAIN_H */
