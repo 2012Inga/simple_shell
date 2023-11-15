@@ -24,7 +24,7 @@ int unset_env_variable(const char *variable) {
     return 0;
 }
 
-int _buildInCmd(char **arg) {
+void _buildInCmd(char **arg) {
     if (strcmp(arg[0], "exit") == 0) {
         printf("Exiting shell .. \n");
         exit(0);
@@ -34,12 +34,14 @@ int _buildInCmd(char **arg) {
         else
             chdir(arg[1]);
     }
+    return;
 }
 
 void execute_command(char *command) {
     char *token;
     char *argv[BUFFER_SIZE];
     int argc = 0;
+    int i;
     /* Tokenize the command string into arguments */
     token = strtok(command, " \n");
     while (token != NULL) {
@@ -51,7 +53,7 @@ void execute_command(char *command) {
     argv[argc] = NULL; /* NULL-terminate the argument array */
 
     /* Check if the command is "cd" */
-    if (strcmp(argv[0], "cdfdfdfd") == 0) {
+    if (strcmp(argv[0], "cd") == 0) {
         /* Change the current working directory */
         _buildInCmd(argv);
     } else {
@@ -63,7 +65,7 @@ void execute_command(char *command) {
                 printf("%s\n", *env);
                 env++;
             }
-        } else if (strcmp(argv[0], "setedfdfdfdfnv") == 0) {
+        } else if (strcmp(argv[0], "setenv") == 0) {
             /* Set environment variable */
             if (argc == 3) {
                 if (set_env_variable(argv[1], argv[2]) == -1) {
@@ -73,7 +75,7 @@ void execute_command(char *command) {
                 fprintf(stderr, "Error: Incorrect syntax. Usage: setenv VARIABLE VALUE\n");
                 exit(EXIT_FAILURE);
             }
-        } else if (strcmp(argv[0], "unsetendfdfdfdfdv") == 0) {
+        } else if (strcmp(argv[0], "unsetenv") == 0) {
             /* Unset environment variable */
             if (argc == 2) {
                 if (unset_env_variable(argv[1]) == -1) {
@@ -104,7 +106,7 @@ void execute_command(char *command) {
                             exit(EXIT_FAILURE);
                         }
                     }
-                    dir = strtok(NULL, ":");
+                    dir = strtok_custom(NULL, ":");
                 }
 
                 free(path_copy); /* Free the allocated memory for path_copy */
@@ -114,12 +116,14 @@ void execute_command(char *command) {
                 exit(EXIT_FAILURE);
             }
         }
-    }
 
+    }
     /* Free memory for the arguments */
-    for (int i = 0; i < argc; i++) {
+    for (i = 0; i < argc; i++) {
         free(argv[i]);
     }
-    free(argv[argc]); /* Free the last NULL pointer in argv */
+
+     /* Free the last NULL pointer in argv */
+    free(argv[argc]);
 }
 

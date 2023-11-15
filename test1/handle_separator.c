@@ -1,65 +1,106 @@
 #include "main.h"
-#include "execute_command.h"
 
 /**
- * execute_command - Execute multiple commands separated by ';'.
- * @command: The command string to be executed.
+ * execute_single_command - Execute a single command in a child process.
+ * @command: The command to execute.
+ * Return: void
  */
-void execute_command(char *command)
+void execute_single_command(char *command)
 {
-	char *token;
-	char *commands[BUFFER_SIZE];
-	int num_commands = 0;
+	pid_t child;
 
-	/* Tokenize the command string into commands separated by ';'*/
-	token = strtok(command, ";");
-	while (token != NULL)
+	child = fork();
+	if (child == -1)
 	{
-		commands[num_commands] = token;
-		num_commands++;
-		token = strtok(NULL, ";");
+		perror("fork failed");
+		exit(EXIT_FAILURE);
 	}
 
-	/* Execute each command */
-	for (int i = 0; i < num_commands; i++)
+	if (child == 0)
 	{
-		/* Skip leading whitespaces */
-		while (isspace((unsigned char)commands[i][0]))
-			commands[i]++;
-
-		/* Check if the command is not empty */
-		if (commands[i][0] != '\0')
-		{
-			pid_t child;
-			child = fork();
-			if (child == -1)
-			{
-				perror("fork failed");
-				exit(EXIT_FAILURE);
-			}
-
-			if (child == 0)
-			{
-				/* Child process executes the command */
-				execute_single_command(commands[i]);
-				exit(0);
-			}
-			else
-			{
-				/* Parent process waits for the child to finish */
-				wait(NULL);
-			}
-		}
+		/* Child process */
+		execute_command(command);
+		exit(EXIT_SUCCESS);
+	} else
+	{
+		/* Parent process */
+		waitpid(child, NULL, 0);
 	}
 }
 
 /**
- * execute_single_command - Execute a single shell command.
- * @command: The command string to be executed.
+ * execute_logical_operator - Execute a command based on the result of the previous one.
+ * @command: The command to execute.
+ * @prev_status: The exit status of the previous command.
+ * @logical_operator: The logical operator (&& or || or ;).
+ * Return: The exit status of the executed command.
  */
-void execute_single_command(char *command)
+int execute_logical_operator(char *command, int prev_status, char *logical_operator)
 {
-	/* The implementation of execute_single_command remains the same */
-	/* You can use the previous version of the execute_single_command function */
-	/* and include the command handling logic for single commands. */
+	int status;
+	pid_t child;
+
+	if ((strcmp(logical_operator, "&&") == 0 && prev_status == 0) ||
+	    (strcmp(logical_operator, "||") == 0 && prev_status != 0) ||
+	    (strcmp(logical_operator, ";") == 0))
+	    {
+		/* Execute the command only if the condition is met */
+		child = fork();
+		if (child == -1)
+		{
+			perror("fork failed");
+			exit(EXIT_FAILURE);
+		}
+
+		if (child == 0)
+		{
+			/* Child process */
+			execute_command(command);
+			exit(EXIT_SUCCESS);
+		} else
+		{
+			/* Parent process */
+			waitpid(child, &status, 0);
+			return (status);
+		}
+	}
+
+	/* Return the previous status if the condition is not met */
+	return (prev_status);
+}
+
+/**
+ * handle_separator - Execute commands separated by logical operators && or || or ;.
+ * @argv: An array of command-line arguments.
+ * @argc: The number of command-line arguments.
+ * Return: The exit status of the last executed command.
+ */
+int handle_separator(char *argv[], int argc)
+{
+	int status = 0;
+
+	for (int i = 0; i < argc; i++)
+	{
+		if (strcmp(argv[i], "&&") == 0 || strcmp(argv[i], "||") == 0)
+		{
+			/* Logical operator found */
+			if (i + 1 < argc)
+			{
+				/* Execute command based on the logical operator */
+				status = execute_logical_operator(argv[i + 1], status, argv[i]);
+				i++; /* Skip the next argument */
+			} else
+			{
+				/* Error: Logical operator without a following command */
+				fprintf(stderr, "Syntax error: Logical operator without a following command\n");
+				return (-1);
+			}
+		} else
+		{
+			/* Single command */
+			execute_single_command(argv[i]);
+		}
+	}
+
+	return (status);
 }

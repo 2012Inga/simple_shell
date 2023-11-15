@@ -8,18 +8,14 @@
  * splitString - Split a string into an array of tokens based on a delimiter.
  * @input: The input string to be split.
 =======
-/* @input: The input string to be split.
->>>>>>> 027bbab46fac9450c87aa466cb7412a520086f69
- * @delimiter: The delimiter used for splitting the string.
- * @count: Pointer to an integer to store the number of tokens.
- *
  * Return: An array of strings (tokens).
  */
 char **splitString(const char *input, const char *delimiter, int *count) {
     int tokenCount = 0;
     char **tokens = NULL;
     int maxTokens = 10; /* Initial array size, can be adjusted based on your needs */
-
+    char *token;
+    char *str;
     *count = 0;
 
     tokens = (char **)malloc(maxTokens * sizeof(char *));
@@ -27,13 +23,13 @@ char **splitString(const char *input, const char *delimiter, int *count) {
         return NULL; /* Memory allocation error */
     }
 
-    char *str = strdup(input);
+    str = strdup(input);
     if (str == NULL) {
         free(tokens);
         return NULL; /* Memory allocation error */
     }
 
-    char *token = strtok_custom(str, delimiter);
+    token = strtok_custom(str, delimiter);
     while (token != NULL) {
         tokens[tokenCount] = strdup(token);
         tokenCount++;
