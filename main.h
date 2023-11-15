@@ -39,9 +39,13 @@ typedef struct AliasNode {
 
 AliasNode *alias_list;
 
+<<<<<<< HEAD
 void add_alias(char *name, char *value);
 
 void print_aliases(void);
+=======
+
+>>>>>>> 88f69054d20ebcdcb4fc0dcc9b2732e23621ea81
 
 int handle_separator(char *argv[], int argc);
 
