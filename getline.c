@@ -14,6 +14,7 @@ char *_getline(void) {
     size_t line_size = BUFFER_SIZE;
     size_t line_length = 0;
     int ch;
+    char *new_line;
 
     line = (char *)malloc(line_size);
     if (!line) {
@@ -33,7 +34,7 @@ char *_getline(void) {
             if (line_length >= line_size - 1) {
                
                 line_size *= 2;
-                char *new_line = (char *)realloc(line, line_size);
+                new_line = (char *)realloc(line, line_size);
                 if (!new_line) {
                     perror("Memory reallocation error");
                     free(line);

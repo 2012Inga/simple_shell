@@ -4,6 +4,11 @@ int main(void) {
     char *command = NULL;
     bool oneline = isatty(STDIN_FILENO);
     pid_t child;
+    int i; 
+        char *token;
+        char *argv[BUFFER_SIZE];
+        int argc = 0; 
+
     while (1) {
         if (oneline) {
             printf("#shell4.1$ ");
@@ -21,9 +26,6 @@ int main(void) {
 	}
 
 	/* Tokenize the command string into arguments */
-        char *token;
-        char *argv[BUFFER_SIZE];
-        int argc = 0;
 
         token = strtok(command, " \n");
         while (token != NULL) {
@@ -71,7 +73,7 @@ int main(void) {
         }
 
         /* Free memory for the arguments */
-        for (int i = 0; i < argc; i++) {
+        for ( i = 0; i < argc; i++) {
             free(argv[i]);
         }
 

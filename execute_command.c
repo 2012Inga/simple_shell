@@ -24,7 +24,7 @@ int unset_env_variable(const char *variable) {
     return 0;
 }
 
-int _buildInCmd(char **arg) {
+void _buildInCmd(char **arg) {
     if (strcmp(arg[0], "exit") == 0) {
         printf("Exiting shell .. \n");
         exit(0);
@@ -34,12 +34,14 @@ int _buildInCmd(char **arg) {
         else
             chdir(arg[1]);
     }
+    return;
 }
 
 void execute_command(char *command) {
     char *token;
     char *argv[BUFFER_SIZE];
     int argc = 0;
+    int i;
     /* Tokenize the command string into arguments */
     token = strtok(command, " \n");
     while (token != NULL) {
@@ -114,12 +116,14 @@ void execute_command(char *command) {
                 exit(EXIT_FAILURE);
             }
         }
-    }
 
+    }
     /* Free memory for the arguments */
-    for (int i = 0; i < argc; i++) {
+    for (i = 0; i < argc; i++) {
         free(argv[i]);
     }
+
      /* Free the last NULL pointer in argv */
+    free(argv[argc]);
 }
 
