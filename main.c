@@ -1,6 +1,5 @@
 #include "main.h"
 
-<<<<<<< HEAD:test1/main.c
 /**
  * main - The main function of the shell program.
  *
@@ -15,34 +14,11 @@ int main(void)
 	char *command = NULL;
 	bool oneline = isatty(STDIN_FILENO);
 	pid_t child;
-=======
-int main(void) {
-    char *command = NULL;
-    bool oneline = isatty(STDIN_FILENO);
-    pid_t child;
-    int i; 
-        char *token;
-        char *argv[BUFFER_SIZE];
-        int argc = 0; 
+	char *token;
+	char *argv[BUFFER_SIZE];
+	int argc = 0;
+	int i;
 
-    while (1) {
-        if (oneline) {
-            printf("#shell4.1$ ");
-        }
-        command = _getline();
-        if (command == NULL) {
-            if (oneline) {
-                printf("\n");
-            }
-            break;
-        }
-	if (strcmp(command, "exit") == 0){
-		free(command);
-		break;
-	}
-
-	/* Tokenize the command string into arguments */
->>>>>>> a78c186d64bdb42ad8bc20d6cacc0a595c53c3c2:main.c
 
 	while (1)
 	{
@@ -68,17 +44,7 @@ int main(void) {
 			break;
 		}
 
-<<<<<<< HEAD:test1/main.c
 		/* Tokenize the command string into arguments */
-		char *token;
-		char *argv[BUFFER_SIZE];
-		int argc = 0;
-=======
-        /* Free memory for the arguments */
-        for ( i = 0; i < argc; i++) {
-            free(argv[i]);
-        }
->>>>>>> a78c186d64bdb42ad8bc20d6cacc0a595c53c3c2:main.c
 
 		token = strtok(command, " \n");
 		while (token != NULL)
@@ -119,9 +85,7 @@ int main(void) {
 				}
 			}
 		}
-		else if
-		{
-			 ((child = fork()) == -1)
+		else if	 ((child = fork()) == -1)
 			{
 				perror("fork failed");
 				free(command);
@@ -141,13 +105,11 @@ int main(void) {
 		}
 
 		/* Free memory for the arguments */
-		for (int i = 0; i < argc; i++)
+		for ( i = 0; i < argc; i++)
 		{
 			free(argv[i]);
 		}
 
 		free(command);
+		return (0);
 	}
-
-	return (0);
-}
