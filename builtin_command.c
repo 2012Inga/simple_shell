@@ -32,7 +32,7 @@ int unset_env_variable(const char *variable)
 	}
 	return (0);
 }
-void handle_exit(char *arg) {
+void exit_arg(char *arg) {
     int status;
 
     if (arg == NULL) {
@@ -42,8 +42,6 @@ void handle_exit(char *arg) {
         
         status = atoi(arg);
     }
-
-    printf("Exiting shell with status: %d\n", status);
     exit(status);
 }
 
