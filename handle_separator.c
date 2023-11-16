@@ -78,8 +78,9 @@ int execute_logical_operator(char *command, int prev_status, char *logical_opera
 int handle_separator(char *argv[], int argc)
 {
 	int status = 0;
+	int i;
 
-	for (int i = 0; i < argc; i++)
+	for (i = 0; i < argc; i++)
 	{
 		if (strcmp(argv[i], "&&") == 0 || strcmp(argv[i], "||") == 0)
 		{
