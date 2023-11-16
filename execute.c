@@ -36,11 +36,8 @@ void execute_command(char *command)
     argv[argc] = NULL;
 
     
-    if (strcmp(argv[0], "exit") == 0)
-    {
-        free(command); /* Free memory for the command */
-	exit(0); /* Exit the shell */
-    } else if (strcmp(argv[0], "env") == 0)
+   
+     if (strcmp(argv[0], "env") == 0)
     {
         while (*env)
 	{
