@@ -29,7 +29,7 @@ int unset_env_variable(const char *variable);
 
 void execute_command(char *command);
 
-void _buildInCmd(char **arg);
+void _buildInCmd(char *command);
 
 int change_directory(const char *directory);
 
