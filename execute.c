@@ -1,32 +1,6 @@
 #include "main.h"
 
-int set_env_variable(const char *variable, const char *value)
-{
-    if (setenv(variable, value, 1) == -1)
-    {
-        fprintf(stderr, "Error: Could not set environment variable %s\n", variable);
-        return (-1);
-    }
-    return(0)
-}
 
-/**
- * Unset an environment variable.
- * Command syntax: unsetenv VARIABLE
- * Prints an error message on stderr on failure.
- *
- * @param variable The name of the environment variable to unset.
- * @return 0 on success, -1 on failure.
- */
-int unset_env_variable(const char *variable)
-{
-    if (unsetenv(variable) == -1)
-    {
-        fprintf(stderr, "Error: Could not unset environment variable %s\n", variable);
-        return (-1);
-    }
-    return (0);
-}
 
 void _buildInCmd(char **arg)
 {
