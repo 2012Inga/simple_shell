@@ -15,6 +15,8 @@ extern char **environ;
 
 #define BUFFER_SIZE 1024
 
+void handle_exit(char *arg);
+
 char *_getline(void);
 
 char **splitString(const char *input, const char *delimiter, int *count);
