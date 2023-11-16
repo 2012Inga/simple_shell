@@ -2,18 +2,51 @@
 
 
 
-void _buildInCmd(char **arg)
-{
-    if (strcmp(arg[0], "exit") == 0)
-    {
-        printf("Exiting shell .. \n");
-        exit(0);
-    } else if (strcmp(arg[0], "cd") == 0)
-    {
-        if (arg[1] == NULL)
-            chdir(getenv("HOME"));
-        else
+void _buildInCmd(char **arg) {
+    char *home_dir;
+    char *old_pwd;
+    char *previous_dir;
+    char cwd[1024];
+    if (strcmp(arg[0], "cd") == 0) {
+        old_pwd = getenv("PWD");
+        if (old_pwd == NULL) {
+            perror("getenv");
+            return;
+        }
+
+        if (arg[1] == NULL) {
+            home_dir = getenv("HOME");
+            if (home_dir == NULL) {
+                perror("getenv");
+                return;
+            }
+            chdir(home_dir);
+        } else if (strcmp(arg[1], "-") == 0) {
+            previous_dir = getenv("OLDPWD");
+            if (previous_dir == NULL) {
+                perror("getenv");
+                return;
+            }
+            chdir(previous_dir);
+        } else {
             chdir(arg[1]);
+        }
+
+        
+        if (getcwd(cwd, sizeof(cwd)) == NULL) {
+            perror("getcwd");
+            return;
+        }
+
+        if (setenv("PWD", cwd, 1) == -1) {
+            perror("setenv");
+            return;
+        }
+
+        if (setenv("OLDPWD", old_pwd, 1) == -1) {
+            perror("setenv");
+            return;
+        }
     }
     return;
 }
