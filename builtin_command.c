@@ -32,6 +32,20 @@ int unset_env_variable(const char *variable)
 	}
 	return (0);
 }
+void handle_exit(char *arg) {
+    int status;
+
+    if (arg == NULL) {
+        // No argument provided, use default exit status
+        status = 0;
+    } else {
+        // Convert argument to integer
+        status = atoi(arg);
+    }
+
+    printf("Exiting shell with status: %d\n", status);
+    exit(status);
+}
 
 /**
  * execute_command - Execute a shell command.
