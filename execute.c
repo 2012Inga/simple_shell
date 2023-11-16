@@ -8,9 +8,9 @@ void _buildInCmd(char *command) {
     char *dup_command;
     char *arg0;
     char *arg1;
-    char *previous_dir;
+    char new_path[1024];
     char cwd[1024];
-	
+
     dup_command = strdup(command);
     if (dup_command == NULL) {
         perror("strdup");
@@ -45,7 +45,7 @@ void _buildInCmd(char *command) {
                 return;
             }
         } else if (strcmp(arg1, "-") == 0) {
-            previous_dir = getenv("OLDPWD");
+            char *previous_dir = getenv("OLDPWD");
             if (previous_dir == NULL) {
                 perror("getenv");
                 free(dup_command);
@@ -57,14 +57,28 @@ void _buildInCmd(char *command) {
                 return;
             }
         } else {
-            if (chdir(arg1) != 0) {
-                perror("chdir");
-                free(dup_command);
-                return;
+            if (arg1[0] == '~') {
+                home_dir = getenv("HOME");
+                if (home_dir == NULL) {
+                    perror("getenv");
+                    free(dup_command);
+                    return;
+                }
+                snprintf(new_path, sizeof(new_path), "%s%s", home_dir, arg1 + 1);
+                if (chdir(new_path) != 0) {
+                    perror("chdir");
+                    free(dup_command);
+                    return;
+                }
+            } else {
+                if (chdir(arg1) != 0) {
+                    perror("chdir");
+                    free(dup_command);
+                    return;
+                }
             }
         }
 
-        
         if (getcwd(cwd, sizeof(cwd)) == NULL) {
             perror("getcwd");
             free(dup_command);
