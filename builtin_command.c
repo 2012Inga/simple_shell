@@ -36,10 +36,10 @@ void handle_exit(char *arg) {
     int status;
 
     if (arg == NULL) {
-        // No argument provided, use default exit status
+       
         status = 0;
     } else {
-        // Convert argument to integer
+        
         status = atoi(arg);
     }
 
