@@ -21,7 +21,7 @@ int main(void)
             arg = strtok(command + 4, " \t");
             exit_arg(arg);
         }
-        _buildInCmd(&command);
+        _buildInCmd(command);
         if ((child = fork()) == -1) {
             perror("fork failed");
             exit(EXIT_FAILURE);
