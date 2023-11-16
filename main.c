@@ -1,9 +1,10 @@
 #include "main.h"
-int main(int argc, char *argv[])
+int main(void)
 {
     char *command = NULL;
     bool oneline = isatty(STDIN_FILENO);
     pid_t child;
+    char *arg;
     while (1) {
         if (oneline) {
             printf("#shell27$ ");
@@ -16,7 +17,10 @@ int main(int argc, char *argv[])
             break;
         }
 
-       
+        if (strncmp(command, "exit", 4) == 0) {
+            arg = strtok(command + 4, " \t");
+            handle_exit(arg);
+        }
         if ((child = fork()) == -1) {
             perror("fork failed");
             exit(EXIT_FAILURE);
@@ -24,12 +28,8 @@ int main(int argc, char *argv[])
 
         if (child == 0) {
             execute_command(command);
-            exit(argc > 1 ? atoi(argv[1]): 0); /* Use custom status if provided */
         } else {
             wait(NULL);
-	    if (strcmp(command,"exit")==0){
-	    break;
-	    }
         }
 
         free(command);
