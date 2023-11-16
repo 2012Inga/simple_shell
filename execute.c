@@ -2,52 +2,89 @@
 
 
 
-void _buildInCmd(char **arg) {
+void _buildInCmd(char *command) {
     char *home_dir;
     char *old_pwd;
+    char *dup_command;
+    char *arg0;
+    char *arg1;
     char *previous_dir;
     char cwd[1024];
-    if (strcmp(arg[0], "cd") == 0) {
+	
+    dup_command = strdup(command);
+    if (dup_command == NULL) {
+        perror("strdup");
+        return;
+    }
+
+    arg0 = strtok(dup_command, " \t");
+    if (arg0 == NULL) {
+        free(dup_command);
+        return;
+    }
+
+    if (strcmp(arg0, "cd") == 0) {
         old_pwd = getenv("PWD");
         if (old_pwd == NULL) {
             perror("getenv");
+            free(dup_command);
             return;
         }
 
-        if (arg[1] == NULL) {
+        arg1 = strtok(NULL, " \t");
+        if (arg1 == NULL) {
             home_dir = getenv("HOME");
             if (home_dir == NULL) {
                 perror("getenv");
+                free(dup_command);
                 return;
             }
-            chdir(home_dir);
-        } else if (strcmp(arg[1], "-") == 0) {
+            if (chdir(home_dir) != 0) {
+                perror("chdir");
+                free(dup_command);
+                return;
+            }
+        } else if (strcmp(arg1, "-") == 0) {
             previous_dir = getenv("OLDPWD");
             if (previous_dir == NULL) {
                 perror("getenv");
+                free(dup_command);
                 return;
             }
-            chdir(previous_dir);
+            if (chdir(previous_dir) != 0) {
+                perror("chdir");
+                free(dup_command);
+                return;
+            }
         } else {
-            chdir(arg[1]);
+            if (chdir(arg1) != 0) {
+                perror("chdir");
+                free(dup_command);
+                return;
+            }
         }
 
         
         if (getcwd(cwd, sizeof(cwd)) == NULL) {
             perror("getcwd");
+            free(dup_command);
             return;
         }
 
         if (setenv("PWD", cwd, 1) == -1) {
             perror("setenv");
+            free(dup_command);
             return;
         }
 
         if (setenv("OLDPWD", old_pwd, 1) == -1) {
             perror("setenv");
+            free(dup_command);
             return;
         }
     }
+
+    free(dup_command);
     return;
 }
 
