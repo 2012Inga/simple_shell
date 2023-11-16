@@ -19,7 +19,7 @@ int main(void)
 
         if (strncmp(command, "exit", 4) == 0) {
             arg = strtok(command + 4, " \t");
-            handle_exit(arg);
+            exit_arg(arg);
         }
         if ((child = fork()) == -1) {
             perror("fork failed");
