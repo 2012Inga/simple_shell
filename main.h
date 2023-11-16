@@ -11,7 +11,7 @@
 #include <signal.h>
 #include <sys/types.h>
 
-extern char **environ;
+extern char *environ;
 
 #define BUFFER_SIZE 1024
 
