@@ -15,7 +15,7 @@ extern char **environ;
 
 #define BUFFER_SIZE 1024
 
-void handle_exit(char *arg);
+void exit_arg(char *arg);
 
 char *_getline(void);
 
