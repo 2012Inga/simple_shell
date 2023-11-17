@@ -5,7 +5,7 @@
  *
  * Description:
  * This function reads a line from the standard input. It dynamically allocates
- * memory for the line and adjusts the buffer size as needed. The function 
+ * memory for the line and adjusts the buffer size as needed. The function
  * returns a pointer to the read line or NULL if an error occurs.
  *
  * Return: A pointer to the read line, or NULL if an error occurs.
@@ -33,12 +33,12 @@ char *custom_getline(void)
 		if (ch == EOF)
 		{
 			free(line); /* Free memory before returning NULL */
-			return NULL;
+			return (NULL);
 		}
 		else if (ch == '\n') /* Check for newline character */
 		{
 			line[line_length] = '\0'; /* Null-terminate the line */
-			return line;
+			return (line);
 		}
 		else
 		{
