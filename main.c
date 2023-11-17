@@ -3,11 +3,9 @@
 int main(void) {
     char *command = NULL;
     bool oneline = isatty(STDIN_FILENO);
-    int status = 0;
-    int argc;
-    char *token;
-char *argv[1024];
-    
+    pid_t child;
+    char *arg;
+
     while (1) {
         if (oneline) {
             printf("#shell27$ ");
@@ -22,29 +20,28 @@ char *argv[1024];
         }
 
         if (strncmp(command, "exit", 4) == 0) {
-            char *arg = strtok(command + 4, " \t");
+            arg = strtok(command + 4, " \t");
             exit_arg(arg);
         } else {
-            
-           
-            argc = 0;
+            if (strncmp(command, "cd", 2) == 0) {
+                _buildInCmd(command);
+            } else {
+                if ((child = fork()) == -1) {
+                    perror("fork failed");
+                    exit(EXIT_FAILURE);
+                }
 
-            token = strtok(command, " \t\n");
-            while (token != NULL) {
-                argv[argc++] = token;
-                token = strtok(NULL, " \t\n");
+                if (child == 0) {
+                    execute_command(command);
+                    exit(EXIT_SUCCESS);
+                } else {
+                    wait(NULL);
+                }
             }
-
-           
-            argv[argc] = NULL;
-
-            
-            status = handle_separator(argv, argc);
-
-            
-            free(command);
         }
+
+        free(command);
     }
 
-    return status;  
+    return 0;
 }
