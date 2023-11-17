@@ -26,6 +26,10 @@ int main(void) {
 
         command_copy = strdup(command);
         env_var = strtok(command_copy, " \t");
+        if (command_copy == NULL) {
+            perror("strdup failed");
+            exit(EXIT_FAILURE);
+        }
         if (strncmp(env_var, "setenv", 6) == 0) {
             variable = strtok(NULL, " \t");
             value = strtok(NULL, " \t");
