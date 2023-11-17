@@ -4,6 +4,9 @@ int main(void) {
     char *command = NULL;
     bool oneline = isatty(STDIN_FILENO);
     int status = 0;
+     char *argv[1024];
+    int argc;
+    char *token
 
     while (1) {
         if (oneline) {
@@ -23,11 +26,10 @@ int main(void) {
             exit_arg(arg);
         } else {
             
-            char *argv[1024];  // Adjust the size as needed
-            int argc = 0;
+           
+            argc = 0;
 
-            // Tokenize the command into arguments
-            char *token = strtok(command, " \t\n");
+            token = strtok(command, " \t\n");
             while (token != NULL) {
                 argv[argc++] = token;
                 token = strtok(NULL, " \t\n");
