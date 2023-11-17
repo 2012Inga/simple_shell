@@ -43,5 +43,5 @@ int main(void) {
         }
     }
 
-    return status;  // Return the status of the last executed command
+    return status; 
 }
