@@ -32,7 +32,7 @@ int main(void) {
 
                 if (child == 0) {
                     execute_command(command);
-                    exit(EXIT_SUCCESS); // Exit child process after command execution
+                    exit(EXIT_SUCCESS);
                 } else {
                     wait(NULL);
                 }
