@@ -1,4 +1,4 @@
-#include "main"
+#include "main.h"
 
 /**
  * exit_arg - Exit the program with the specified status.
