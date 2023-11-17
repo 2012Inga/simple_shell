@@ -22,7 +22,6 @@ int main(void) {
             arg = strtok(command + 4, " \t");
             exit_arg(arg);
         } else {
-            // Check if the command is "cd"
             if (strncmp(command, "cd", 2) == 0) {
                 _buildInCmd(command);
             } else {
