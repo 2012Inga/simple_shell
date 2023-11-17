@@ -73,13 +73,13 @@ void _buildInCmd(char *command) {
                 }
             } else if (arg1[0] == '/') {
                 if (chdir(arg1) != 0) {
-                    perror("chdir");
+                    printf("Folder does not exist");
                     free(dup_command);
                     return;
                 }
             } else {
                 if (chdir(arg1) != 0) {
-                    perror("chdir");
+                    printf("Folder does not exist");
                     free(dup_command);
                     return;
                 }
