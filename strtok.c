@@ -31,7 +31,7 @@ splitString (const char *input, const char *delimiter, int *count)
 
     {
 
-      return NULL; /* Memory allocation error */
+      return (NULL); /* Memory allocation error */
     }
 
   str = strdup (input);
@@ -42,7 +42,7 @@ splitString (const char *input, const char *delimiter, int *count)
 
       free (tokens);
 
-      return NULL; /* Memory allocation error */
+      return (NULL); /* Memory allocation error */
     }
 
   token = strtok_custom (str, delimiter);
@@ -69,7 +69,7 @@ splitString (const char *input, const char *delimiter, int *count)
 
               free (str);
 
-              return NULL; /* Memory allocation error */
+              return (NULL); /* Memory allocation error */
             }
         }
 
@@ -82,7 +82,7 @@ splitString (const char *input, const char *delimiter, int *count)
 
   *count = tokenCount;
 
-  return tokens;
+  return (tokens);
 }
 
 /**
@@ -113,7 +113,7 @@ strtok_custom (char *str, const char *delim)
 
     {
 
-      return NULL;
+      return (NULL);
     }
 
   token = lastToken;
@@ -130,7 +130,7 @@ strtok_custom (char *str, const char *delim)
 
           lastToken++;
 
-          return token;
+          return (token);
         }
 
       lastToken++;
@@ -150,11 +150,11 @@ strtok_custom (char *str, const char *delim)
 
           lastToken = strPointer + 1;
 
-          return token;
+          return (token);
         }
 
       strPointer++;
     }
 
-  return token;
+  return (token);
 }
