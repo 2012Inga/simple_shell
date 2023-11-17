@@ -126,7 +126,10 @@ void execute_command(char *command)
 
     argv[argc] = NULL;
 
-    
+    if (strpbrk(command, ";&&||") != NULL) {
+        printf("Skipping command with separators: %s\n", command);
+        return;
+    }
    
      if (strcmp(argv[0], "env") == 0)
     {
