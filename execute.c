@@ -126,7 +126,7 @@ void execute_command(char *command)
 
     argv[argc] = NULL;
 
-    if (strpbrk(command, ";&&||") != NULL) {
+     if (strstr(command, "&&") != NULL || strstr(command, "||") != NULL || strstr(command, ";") != NULL) {
         printf("Skipping command with separators: %s\n", command);
         return;
     }
