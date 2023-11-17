@@ -1,5 +1,8 @@
 #include "main.h"
 
+/* Prototype for strtok_custom */
+char *strtok_custom(char *str, const char *delim);
+
 /**
  * splitString - Split a string into an array of tokens based on a delimiter.
  * @input: The input string to be split.
