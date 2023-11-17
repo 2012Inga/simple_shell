@@ -96,7 +96,24 @@ int handle_separator(char *argv[], int argc)
 				fprintf(stderr, "Syntax error: Logical operator without a following command\n");
 				return (-1);
 			}
-		} else
+		} 
+		else if (strcmp(argv[i], ";") == 0)
+		{
+			/* Semicol found, execute the next command */
+			if (i + 1 <argc)
+			{
+				execute_single_command(argv[i + 1]);
+				status = 0; /* Reset status for semicolon separator */
+				i++; /* Skip the next argument */
+			}
+			else
+			{
+				/* Error: Semicolon without a following command */
+				fprint(stderr, "Syntax error: Semicolon without a following command\n");
+				return (-1);
+			}
+		}
+		else 
 		{
 			/* Single command */
 			execute_single_command(argv[i]);
