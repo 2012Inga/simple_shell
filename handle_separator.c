@@ -109,7 +109,7 @@ int handle_separator(char *argv[], int argc)
 			else
 			{
 				/* Error: Semicolon without a following command */
-				fprint(stderr, "Syntax error: Semicolon without a following command\n");
+				fprintf(stderr, "Syntax error: Semicolon without a following command\n");
 				return (-1);
 			}
 		}
