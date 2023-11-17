@@ -104,4 +104,4 @@ int handle_separator(char *argv[], int argc)
 	}
 
 	return (status);
-}  
+}
