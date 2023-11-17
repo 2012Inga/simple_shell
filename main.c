@@ -11,7 +11,7 @@ int main(void) {
             printf("#shell27$ ");
         }
 
-        command = _getline();
+        command = custom_getline();
         if (command == NULL) {
             if (oneline) {
                 printf("\n");
