@@ -17,7 +17,7 @@ extern char **environ;
 
 void exit_arg(char *arg);
 
-char *_getline(void);
+char *custom_getline(void);
 
 char **splitString(const char *input, const char *delimiter, int *count);
 
