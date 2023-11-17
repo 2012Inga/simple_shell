@@ -32,14 +32,12 @@ void execute_single_command(char *command) {
  * Return: The exit status of the last executed command.
  */
 int handle_separator(char *argv[], int argc) {
-    int status = 0, i;
+    int status = 0,i;
 
     for (i = 0; i < argc; i++) {
         if (strpbrk(argv[i], "&;|")) {
-            
             printf("Skipping command with separators: %s\n", argv[i]);
         } else {
-            
             execute_single_command(argv[i]);
         }
     }
