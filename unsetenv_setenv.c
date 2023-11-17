@@ -34,24 +34,3 @@ int unset_env_variable(const char *variable)
 
 	return (0);
 }
-
-void exit_arg(char *arg)
-{
-	int status;
-
-	if (arg == NULL)
-	{
-		status = 0;
-	}
-	else
-	{
-		status = atoi(arg);
-	}
-
-	exit(status);
-}
-
-/**
- * execute_command - Execute a shell command.
- * @command: The command string to be executed.
- */
