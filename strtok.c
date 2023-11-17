@@ -1,16 +1,15 @@
-#include "main.h" 
-
-
-/* Prototype for strtok_custom */
-
+#include "main.h"
 
 /**
  * splitString - Split a string into an array of tokens based on a delimiter.
  * @input: The input string to be split.
-=======
+ * @delimiter: The delimiter used for splitting.
+ * @count: Pointer to store the number of tokens.
+ *
  * Return: An array of strings (tokens).
  */
-char **splitString(const char *input, const char *delimiter, int *count) {
+char **splitString(const char *input, const char *delimiter, int *count)
+{
     int tokenCount = 0;
     char **tokens = NULL;
     int maxTokens = 10; /* Initial array size, can be adjusted based on your needs */
@@ -19,25 +18,30 @@ char **splitString(const char *input, const char *delimiter, int *count) {
     *count = 0;
 
     tokens = (char **)malloc(maxTokens * sizeof(char *));
-    if (tokens == NULL) {
+    if (tokens == NULL)
+    {
         return NULL; /* Memory allocation error */
     }
 
     str = strdup(input);
-    if (str == NULL) {
+    if (str == NULL)
+    {
         free(tokens);
         return NULL; /* Memory allocation error */
     }
 
     token = strtok_custom(str, delimiter);
-    while (token != NULL) {
+    while (token != NULL)
+    {
         tokens[tokenCount] = strdup(token);
         tokenCount++;
 
-        if (tokenCount >= maxTokens) {
+        if (tokenCount >= maxTokens)
+        {
             maxTokens *= 2;
             tokens = (char **)realloc(tokens, maxTokens * sizeof(char *));
-            if (tokens == NULL) {
+            if (tokens == NULL)
+            {
                 free(str);
                 return NULL; /* Memory allocation error */
             }
@@ -61,21 +65,27 @@ char **splitString(const char *input, const char *delimiter, int *count) {
  *
  * Return: A pointer to the next token, or NULL if there are no more tokens.
  */
-char *strtok_custom(char *str, const char *delim) {
+char *strtok_custom(char *str, const char *delim)
+{
     static char *lastToken = NULL; /* Stores the last token between calls */
     char *token;
     char *strPointer;
 
-    if (str != NULL) {
+    if (str != NULL)
+    {
         lastToken = str;
-    } else if (lastToken == NULL) {
+    }
+    else if (lastToken == NULL)
+    {
         return NULL;
     }
 
     token = lastToken;
 
-    while (*lastToken != '\0') {
-        if (strchr(delim, *lastToken) != NULL) {
+    while (*lastToken != '\0')
+    {
+        if (strchr(delim, *lastToken) != NULL)
+        {
             *lastToken = '\0';
             lastToken++;
             return token;
@@ -85,8 +95,10 @@ char *strtok_custom(char *str, const char *delim) {
 
     strPointer = token;
 
-    while (*strPointer != '\0') {
-        if (strchr(delim, *strPointer) != NULL) {
+    while (*strPointer != '\0')
+    {
+        if (strchr(delim, *strPointer) != NULL)
+        {
             *strPointer = '\0';
             lastToken = strPointer + 1;
             return token;
