@@ -1,8 +1,8 @@
 #include "main"
 
 /**
- * exit function - Exits shell function.
- * @command: The command string to be executed.
+ * exit_arg - Exit the program with the specified status.
+ * @arg: The exit status as a string.
  */
 void exit_arg(char *arg)
 {
