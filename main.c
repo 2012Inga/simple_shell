@@ -3,12 +3,16 @@
 int main(void) {
     char *command = NULL;
     bool oneline = isatty(STDIN_FILENO);
-    pid_t child;
+    int status = 0;
+    char *token;
+    char *argv[1024];
     char *arg;
+
     while (1) {
         if (oneline) {
             printf("#shell27$ ");
         }
+
         command = _getline();
         if (command == NULL) {
             if (oneline) {
@@ -21,21 +25,23 @@ int main(void) {
             arg = strtok(command + 4, " \t");
             exit_arg(arg);
         } else {
-            _buildInCmd(command);
-            if ((child = fork()) == -1) {
-                perror("fork failed");
-                exit(EXIT_FAILURE);
-            }
+        
+             
+            int argc = 0;
 
-            if (child == 0) {
-                execute_command(command);
-            } else {
-                wait(NULL);
+            token = strtok(command, " \t\n");
+            while (token != NULL) {
+                argv[argc++] = token;
+                token = strtok(NULL, " \t\n");
             }
+            argv[argc] = NULL;
+
+          
+            status = handle_separator(argv, argc);
+
+            free(command);
         }
-
-        free(command);
     }
 
-    return 0;
+    return status;  // Return the status of the last executed command
 }
