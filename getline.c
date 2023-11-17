@@ -10,7 +10,7 @@
  *
  * Return: A pointer to the read line, or NULL if an error occurs.
  */
-char *custom_getline(void) 
+char *custom_getline(void)
 {
 	char *line = NULL;        /* Pointer to the line being read */
 	size_t line_size = BUFFER_SIZE;   /* Initial size of the buffer */
@@ -20,26 +20,35 @@ char *custom_getline(void)
 
 	/* Allocate memory for the initial line buffer */
 	line = (char *)malloc(line_size);
-	if (!line) {
+	if (!line)
+	{
 		perror("Memory allocation error");
 		exit(EXIT_FAILURE);
 	}
 
 	/* Loop to read characters from standard input */
-	while (1) {
+	while (1)
+	{
 		ch = getchar();
-		if (ch == EOF) {
+		if (ch == EOF)
+		{
 			free(line); /* Free memory before returning NULL */
-			return NULL; 
-		} else if (ch == '\n') { /* Check for newline character */
+			return NULL;
+		}
+		else if (ch == '\n') /* Check for newline character */
+		{
 			line[line_length] = '\0'; /* Null-terminate the line */
 			return line;
-		} else {
+		}
+		else
+		{
 			/* Check if the buffer is full and reallocate if needed */
-			if (line_length >= line_size - 1) {
-				line_size *= 2; /* Double the buffer size */ 
+			if (line_length >= line_size - 1)
+			{
+				line_size *= 2; /* Double the buffer size */
 				new_line = (char *)realloc(line, line_size);
-				if (!new_line) {
+				if (!new_line)
+				{
 					perror("Memory reallocation error");
 					free(line);
 					exit(EXIT_FAILURE);
@@ -47,9 +56,8 @@ char *custom_getline(void)
 				line = new_line;
 			}
 
-			/* Store the character in the line buffer */ 
+			/* Store the character in the line buffer */
 			line[line_length++] = ch;
 		}
 	}
 }
-
