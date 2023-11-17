@@ -84,9 +84,9 @@ int execute_logical_operator(char *command, int prev_status, char *logical_opera
  * Return: The exit status of the last executed command.
  */
 int handle_separator(char *argv[], int argc) {
-    int status = 0;
+    int status = 0,i;
 
-    for (int i = 0; i < argc; i++) {
+    for (i = 0; i < argc; i++) {
         if (strcmp(argv[i], "&&") == 0 || strcmp(argv[i], "||") == 0 || strcmp(argv[i], ";") == 0) {
             /* Logical operator found */
             if (i + 1 < argc) {
