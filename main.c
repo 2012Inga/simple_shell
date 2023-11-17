@@ -7,7 +7,6 @@ int main(void) {
     char *env_var = NULL;
     char *variable;
     char *value;
-    char *variable;
     bool oneline = isatty(STDIN_FILENO);
     pid_t child;
 
