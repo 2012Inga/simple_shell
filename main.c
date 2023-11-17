@@ -1,3 +1,5 @@
+#include "main.h"
+
 int main(void) {
     char *command = NULL;
     bool oneline = isatty(STDIN_FILENO);
