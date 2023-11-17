@@ -5,9 +5,6 @@ int main(void) {
     bool oneline = isatty(STDIN_FILENO);
     pid_t child;
     char *arg;
-    char *env_var;
-    char *variable;
-    char *value;
 
     while (1) {
         if (oneline) {
