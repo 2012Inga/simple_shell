@@ -4,10 +4,10 @@ int main(void) {
     char *command = NULL;
     bool oneline = isatty(STDIN_FILENO);
     int status = 0;
-     char *argv[1024];
     int argc;
-    char *token
-
+    char *token;
+char *argv[1024];
+    
     while (1) {
         if (oneline) {
             printf("#shell27$ ");
