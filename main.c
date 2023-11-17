@@ -24,11 +24,11 @@ int main(void) {
         }
 
         env_var = strtok(command, " \t");
-        if (strncmp(env_var, "export", 6) == 0) {
+        if (strncmp(env_var, "setenv", 6) == 0) {
             variable = strtok(NULL, " \t");
             value = strtok(NULL, " \t");
             set_env_variable(variable, value);
-        } else if (strncmp(env_var, "unset", 5) == 0) {
+        } else if (strncmp(env_var, "unsetenv", 8) == 0) {
             variable = strtok(NULL, " \t");
             unset_env_variable(variable);
         } else {
