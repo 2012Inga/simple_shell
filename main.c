@@ -7,6 +7,7 @@ int main(void) {
     char *env_var = NULL;
     char *variable;
     char *value;
+    char *command_copy;
     bool oneline = isatty(STDIN_FILENO);
     pid_t child;
 
@@ -23,7 +24,8 @@ int main(void) {
             break;
         }
 
-        env_var = strtok(command, " \t");
+        command_copy = strdup(command);
+        env_var = strtok(command_copy, " \t");
         if (strncmp(env_var, "setenv", 6) == 0) {
             variable = strtok(NULL, " \t");
             value = strtok(NULL, " \t");
@@ -53,7 +55,7 @@ int main(void) {
                 }
             }
         }
-
+        free(command_copy);
         free(command);
     }
 
