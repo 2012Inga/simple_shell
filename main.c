@@ -33,6 +33,7 @@ int main(void) {
 
                 if (child == 0) {
                     execute_command(command);
+                    free(command);
                     exit(EXIT_SUCCESS);
                 } else {
                     wait(NULL);
