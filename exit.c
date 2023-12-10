@@ -15,7 +15,7 @@ void exit_arg(char *arg)
 	else
 	{
 		status = atoi(arg);
-		free(arg)
+		free(arg);
 	}
 
 	exit(status);
